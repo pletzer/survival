@@ -1,7 +1,7 @@
 # input parameters
 pend <- 1000         # number of days
 pdie <- 0.12/365.25 # prob to die every day (constant)
-c <- 2  # increased chance dying due to some treatment
+c <- 1  # increased chance dying due to some treatment
 n <- 100 # number of patients
 
 time <- c()   # number of days until event
@@ -23,4 +23,4 @@ for (i in 1:n) {
 }
 
 df <- data.frame(time = time, status = status)
-write.csv(df, 'simpleA.csv')
+write.csv(df, 'simple1.csv')
