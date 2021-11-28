@@ -46,22 +46,23 @@ for(i in 1:n) {
 	# choose a random event date betwen beg_monitoring and vax_date1
 	num_days <- sample(seq(1, max_num_days_unvax, by = 1), 1)
 	event_date <- vax_date1 - num_days
+	event_date_str <- as.character(event_date)
 
 	# unvaccinated period
 	period <- as.integer(vax_date1 - event_date)
-	r <- runif(1)
+	r <- runif(1) # choose a number between 0 and 1
 	days_to_death <- random_days_to_death(random_num = r, cum_risk_func = cum_risk_func_unvax)
 
 	if (days_to_death > period) {
 
 		id <- c(id, i)
 		status <- c(status, 1) # censored
-		event_end_date <- c(event_end_date, event_date)
+		event_end_date <- c(event_end_date, event_date_str)
 		time <- c(time, period)
 		group <- c(group, 1) # unvaccinated
 
 		# partially vaccinated period
-		r <- r/exp(-cum_risk_func_unvax(period))
+		r <- r/exp(-cum_risk_func_unvax(period)) # prob to die given that patient survived until vax_date1
 		period <- as.integer(vax_date2 - vax_date1)
 		days_to_death <- random_days_to_death(random_num = r, cum_risk_func = cum_risk_func_partial)
 
@@ -69,12 +70,12 @@ for(i in 1:n) {
 
 			id <- c(id, i)
 			status <- c(status, 1) # censored
-			event_end_date <- c(event_end_date, event_date)
+			event_end_date <- c(event_end_date, event_date_str)
 			time <- c(time, period)
 			group <- c(group, 2) # partially vaccinated
 
 			# fully vaccinated period
-			r <- r/exp(-cum_risk_func_partial(period))
+			r <- r/exp(-cum_risk_func_partial(period)) # prob to die given that patient survived until vax_date2
 			period <- as.integer(end_monitoring - vax_date2)
 			days_to_death <- random_days_to_death(random_num = r, cum_risk_func = cum_risk_func_full)
 
@@ -82,7 +83,7 @@ for(i in 1:n) {
 
 				id <- c(id, i)
 				status <- c(status, 1) # censored
-				event_end_date <- c(event_end_date, event_date)
+				event_end_date <- c(event_end_date, event_date_str)
 				time <- c(time, period)
 				group <- c(group, 3) # fully vaccinated
 
@@ -91,7 +92,7 @@ for(i in 1:n) {
 				# death occurred during fully vaccinated period
 				id <- c(id, i)
 				status <- c(status, 2) # dead
-				event_end_date <- c(event_end_date, event_date)
+				event_end_date <- c(event_end_date, event_date_str)
 				time <- c(time, days_to_death)
 				group <- c(group, 3) # fully vaccinated
 
@@ -102,7 +103,7 @@ for(i in 1:n) {
 			# death occurred during partially vaccinated period (ie after vax_date1 but before vax_date2)
 			id <- c(id, i)
 			status <- c(status, 2) # dead
-			event_end_date <- c(event_end_date, event_date)
+			event_end_date <- c(event_end_date, event_date_str)
 			time <- c(time, days_to_death)
 			group <- c(group, 2) # partially vaccinated
 
@@ -113,7 +114,7 @@ for(i in 1:n) {
 		# death occurred during the unvaccinated period
 		id <- c(id, i)
 		status <- c(status, 2) # dead
-		event_end_date <- c(event_end_date, event_date)
+		event_end_date <- c(event_end_date, event_date_str)
 		time <- c(time, days_to_death)
 		group <- c(group, 1) # unvaccinated
 
@@ -121,7 +122,7 @@ for(i in 1:n) {
 
 }
 #print(event)
-df <- data.frame(id = id, status = status, event_end_date = event_end_date, time = time, group = group)
+df <- data.frame(id = id, status = status, event_end_date = as.Date(event_end_date), time = time, group = group)
 #print(df)
 write.csv(df, 'data.csv')
 #saveRDS(df, 'data.rds')
