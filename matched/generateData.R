@@ -23,8 +23,8 @@ test_random_days_to_death <- function() {
 # number of people
 n <- 100
 
-vax_date1 <- as.Date("2021-04-01")
-vax_date2 <- as.Date("2021-08-15")
+vax_date1 <- as.Date("2021-06-01")
+vax_date2 <- as.Date("2021-07-15")
 beg_monitoring <- as.Date("2021-01-01")
 end_monitoring <- as.Date("2021-12-31")
 
@@ -61,8 +61,8 @@ for(i in 1:n) {
 		group <- c(group, 1) # unvaccinated
 
 		# partially vaccinated period
+		r <- r/exp(-cum_risk_func_unvax(period))
 		period <- as.integer(vax_date2 - vax_date1)
-		r <- r*exp(-cum_risk_func_unvax(period))
 		days_to_death <- random_days_to_death(random_num = r, cum_risk_func = cum_risk_func_partial)
 
 		if (days_to_death > period) {
@@ -74,8 +74,8 @@ for(i in 1:n) {
 			group <- c(group, 2) # partially vaccinated
 
 			# fully vaccinated period
+			r <- r/exp(-cum_risk_func_partial(period))
 			period <- as.integer(end_monitoring - vax_date2)
-			r <- r*exp(-cum_risk_func_partial(period))
 			days_to_death <- random_days_to_death(random_num = r, cum_risk_func = cum_risk_func_full)
 
 			if (days_to_death > period) {
