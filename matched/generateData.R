@@ -13,13 +13,19 @@ test_random_days_to_death <- function() {
 	print(days_to_death)
 }
 
+
+# input values
+##############
+
+# number of people
 n <- 100
+
 vax_date1 <- as.Date("2021-07-01")
 vax_date2 <- as.Date("2021-07-21")
 beg_monitoring <- as.Date("2021-01-01")
 end_monitoring <- as.Date("2021-10-01")
 
-
+# integral of the hazard/risk function in time
 cum_risk_func_unvax <- function(t) (5e-2*t)
 cum_risk_func_partial <- function(t) (1.e-3*t)
 cum_risk_func_full <- function(t) (1.e-2*t)
