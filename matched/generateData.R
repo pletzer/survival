@@ -21,7 +21,7 @@ test_random_days_to_death <- function() {
 ##############
 
 # number of people
-n <- 100
+n <- 10000
 
 vax_date1 <- as.Date("2021-06-01")
 vax_date2 <- as.Date("2021-07-15")
