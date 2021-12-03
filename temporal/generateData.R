@@ -6,7 +6,7 @@ a <- 1.0 # increased risk due to vaccinaton (if > 0)
 tau <- 30 # number of days for the vaccination risk to taper off
 max_time <- 100 # follow up period
 
-n <- 100 # number of patients
+n <- 10000 # number of patients
 
 cum_hazard_func <- function(t, x) {
 	return(  lam0*( t + a*x*tau*(1. - exp(-t/tau)) )  )
