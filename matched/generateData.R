@@ -21,7 +21,7 @@ test_random_days_to_death <- function() {
 ##############
 
 # number of people
-n <- 10000
+n <- 1000
 
 vax_date1 <- as.Date("2021-06-01")
 vax_date2 <- as.Date("2021-07-15")
@@ -30,7 +30,7 @@ end_monitoring <- as.Date("2021-12-31")
 
 # integral of the hazard/risk function in time
 cum_risk_func_unvax <- function(t) (4.e-3*t)
-cum_risk_func_partial <- function(t) (3.e-3*t)
+cum_risk_func_partial <- function(t) (2.e-3*t)
 cum_risk_func_full <- function(t) (2.e-3*t)
 
 max_num_days_unvax <- as.integer(vax_date1 - beg_monitoring)
@@ -40,6 +40,7 @@ id <- c()
 status <- c()
 event_end_date <- c()
 time <- c()
+cum_time <- c()
 group <- c()
 for(i in 1:n) {
 
