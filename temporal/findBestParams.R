@@ -28,14 +28,11 @@ res <- optim(params, likelihood,
 
 lam0 <- res$par[[1]]
 a <- res$par[[2]]
-hess <- hessian(likelihood, res$par, method.args = list(d=c(0.01*lam0, 0.01)))
+deltas <- c(0.1*lam0, 0.01) # delats to compute the Hessian
+hess <- hessian(likelihood, res$par, method.args = list(d = deltas))
 
 print(hess)
 
 fisher_info <- solve(-hess)
 param_sigma <- sqrt(diag(fisher_info))
 print(sprintf("best estimates lam0 = %g +/- %g  a = %f +/- %f", lam0, 1.96*param_sigma[[1]], a, 1.96*param_sigma[[2]]))
-
-# res <- optim(params, likelihood, method = "L-BFGS-B", lower = c(0., -1.), 
-#              control = list(fnscale = -1., maxit = 1000)) # maximisation
-print(res)
