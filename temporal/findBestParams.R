@@ -20,7 +20,7 @@ likelihood <- function(params) {
 }
 
 
-params <- c(1.e-2, 1., 30.)
+params <- c(1.e-3, 0.5, 10.)
 res <- optim(params, likelihood, control = list(fnscale = -1., maxit = 1000, retol=1.e-12)) # maximisation
 
 # res <- optim(params, likelihood, method = "L-BFGS-B", lower = c(0., -1.), 
