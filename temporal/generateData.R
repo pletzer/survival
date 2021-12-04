@@ -7,7 +7,7 @@ tau <- 30 # number of days for the vaccination risk to taper off
 max_time <- 100 # follow up period
 rvacc = 0.5
 
-n <- 100000 # number of patients
+n <- 10000 # number of patients
 
 cum_hazard_func <- function(t, x) {
 	return(  lam0*( t + a*x*tau*(1. - exp(-t/tau)) )  )
