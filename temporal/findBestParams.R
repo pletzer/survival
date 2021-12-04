@@ -16,7 +16,7 @@ Lambda_func <- function(t, x, params) {
 
 likelihood <- function(params) {
 
-	return(    sum(   df$status * log(lambda_func(df$time, df$x, params)) - Lambda_func(df$time, df$x, params))    )
+	return(    sum(   df$death * log(lambda_func(df$time, df$x, params)) - Lambda_func(df$time, df$x, params))    )
 }
 
 

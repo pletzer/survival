@@ -25,7 +25,7 @@ get_time_death <- function(r, x, chfunc) {
 
 # create the data
 id <- rep(NA, n) # patient id
-status <- rep(NA, n) # 0=censored 1=dead
+death <- rep(NA, n) # 0=censored 1=dead
 time <- rep(NA, n) # time to death or censorship
 x <- rep(NA, n) # vaccination status, 0=unvaccinated 1=vaccinated
 
@@ -48,15 +48,15 @@ for(i in 1:n) {
 	x[i] <- xval
 	if (time_death > max_time) {
 		# patient survived, censored
-		status[i] <- 0
+		death[i] <- 0
 		time[i] <- max_time
 	} else {
 		# patient died
-		status[i] <- 1
+		death[i] <- 1
 		time[i] <- time_death
 	}
 
 }
 
-df <- data.frame(id = id, status = status, time = time, x = x)
+df <- data.frame(id = id, time = time, x = x, death = death)
 write.csv(df, 'data.csv')
